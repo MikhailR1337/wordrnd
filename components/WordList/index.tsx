@@ -6,6 +6,7 @@ export type Word = {
     word: string
     translate: string
     id: string
+    isActive: boolean
 }
 
 export const WordList = () => {
@@ -28,7 +29,14 @@ export const WordList = () => {
         if (!newWord.trim().length || !newTranslation.trim().length) {
             return
         }
-        const newList = [{word: newWord?.trim(), translate: newTranslation?.trim(), id: `${newWord}#${newTranslation}`}, ...wordsList]
+        const newList = [
+            {
+                word: newWord?.trim(),
+                translate: newTranslation?.trim(),
+                isActive: true,
+                id: `${newWord}#${newTranslation}${Math.random() * 1000}`},
+                ...wordsList,
+        ]
         setWordsList(newList)
         setNewTranslation('')
         setNewWord('')
@@ -40,6 +48,23 @@ export const WordList = () => {
             }
         })()
     };
+    const handleActive = (id: string) => {
+        const item =  wordsList.find((word) => word.id === id)
+        if (!item) {
+            return
+        }
+        const filteredList = wordsList.filter((word) => word.id !== id)
+        const newList = [...filteredList, { ...item, isActive: !item.isActive }]
+        setWordsList(newList)
+        ;(async function () {
+            try {
+                await AsyncStorage.setItem('WordList', JSON.stringify(newList))
+            } catch (e) {
+                console.log('AsyncStorage, error', e)
+            }
+        })()
+    }
+
     const handleDelete = (id: string) => {
         const newList = wordsList.filter((word) => word.id !== id)
         setWordsList(newList)
@@ -75,7 +100,7 @@ export const WordList = () => {
                 </TouchableOpacity>
             </View>
             <View style={[{ marginTop: 20 }, styles.inputWrapper]}>
-                {wordsList.map(({word, translate, id}) => (
+                {wordsList.map(({word, translate, id, isActive}) => (
                     <View style={styles.wordWrapper} key={id}>
                         <View>
                             <View style={styles.word}>
@@ -85,9 +110,18 @@ export const WordList = () => {
                                 <Text style={styles.label}>{translate}</Text>   
                             </View>
                         </View>
-                        <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(id)}>
+                        <View style={{flexDirection: 'row'}}>
+                            <TouchableOpacity style={styles.hideButton} onPress={() => handleActive(id)}>
+                                {isActive ? (
+                                    <Text style={styles.hideButtonText}>Hide</Text>
+                                ) : (
+                                    <Text style={styles.hideButtonText}>Show</Text>
+                                )}
+                            </TouchableOpacity> 
+                            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(id)}>
                                 <Text style={styles.deleteButtonText}>Delete</Text>
-                        </TouchableOpacity>             
+                            </TouchableOpacity>     
+                        </View>       
                     </View>
                 ))}
             </View>
@@ -147,6 +181,20 @@ const styles = StyleSheet.create({
     },
     addButtonText: {
         color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    hideButton: {
+        backgroundColor: '#ced4da',
+        paddingHorizontal: 20,
+        paddingVertical: 5,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 16,
+    },
+    hideButtonText: {
+        color: '#000000',
         fontSize: 16,
         fontWeight: 'bold',
     },

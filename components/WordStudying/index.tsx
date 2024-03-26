@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput } from "react-nativ
 import { Word } from "../WordList";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'
 
 
 export const WordStudying = () => {
@@ -10,12 +11,13 @@ export const WordStudying = () => {
     const [currentWord, setCurrentWord] = useState<Word>()
     const [answer, setAnswer] = useState('');
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null)
+    const navigation = useNavigation<any>()
     useEffect(() => {
         ;(async function () {
             try {
                 const wordsSaved = await AsyncStorage.getItem('WordList')
                 if (wordsSaved) {
-                    setWordsList(JSON.parse(wordsSaved))
+                    setWordsList(JSON.parse(wordsSaved).filter((item: Word) => item?.isActive))
                 }
             } catch (e) {
                 console.log('AsyncStorage, error', e)
@@ -76,8 +78,8 @@ export const WordStudying = () => {
                     </View>
                 </>
             ): (
-                <TouchableOpacity style={styles.checkButton} onPress={handleCurrentWord}>
-                    <Text style={styles.checkButtonText}>Try</Text>
+                <TouchableOpacity style={styles.checkButton} onPress={() => navigation.navigate('WordList')}>
+                    <Text style={styles.checkButtonText}>Fill your vocabulary...</Text>
                 </TouchableOpacity>
             )}
         </View>

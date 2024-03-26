@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 
 
 export const TabBar = ({ state }: BottomTabBarProps) => {
-    const navigation = useNavigation()
+    const navigation = useNavigation<any>()
 
     return (
         <View style={styles.container}>
