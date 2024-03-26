@@ -45,8 +45,12 @@ export const WordStudying = () => {
             {currentWord?.word ? (
                 <>
                 <View>
-                    <Text style={{marginBottom: 10}}>{currentWord?.word}</Text>
-                    <Text style={styles.label}>Write answer</Text>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={styles.title}>{currentWord?.word}</Text>
+                        {isCorrect === false && (
+                            <Text style={styles.title}> - {currentWord?.translate}</Text>
+                        )}
+                    </View>
                     <TextInput
                         style={styles.input}
                         placeholder="Enter the answer"
@@ -54,16 +58,24 @@ export const WordStudying = () => {
                         onChangeText={text => setAnswer(text)}
                     />
                 </View>
-                <TouchableOpacity style={styles.addButton} onPress={handleCheckResult}>
-                        <Text style={styles.addButtonText}>Check</Text>
-                </TouchableOpacity>
-                {isCorrect !== null ? (
-                     <Text style={styles.label}>{isCorrect ? 'correct' : 'wrong'}</Text>
-                ) : null}
+                <TouchableOpacity
+                    style={
+                        [styles.checkButton,
+                        isCorrect === true && { backgroundColor: '#097969' },
+                        isCorrect === false && { backgroundColor: '#D22B2B' }]
+                    }
+                    onPress={handleCheckResult}
+                >
+                    {isCorrect !== null ? (
+                        <Text style={styles.checkButtonText}>{isCorrect ? 'correct' : 'wrong'}</Text>
+                    ) : (
+                        <Text style={styles.checkButtonText}>Check</Text>
+                    )}
+                    </TouchableOpacity>
                 </>
             ): (
-                <TouchableOpacity style={styles.addButton} onPress={handleCurrentWord}>
-                    <Text style={styles.addButtonText}>Try</Text>
+                <TouchableOpacity style={styles.checkButton} onPress={handleCurrentWord}>
+                    <Text style={styles.checkButtonText}>Try</Text>
                 </TouchableOpacity>
             )}
         </View>
@@ -77,13 +89,13 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
-    addButton: {  
+    checkButton: {  
         backgroundColor: '#007bff',
         paddingHorizontal: 20,
         paddingVertical: 10,
         borderRadius: 5,
     },
-    addButtonText: {
+    checkButtonText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',
@@ -91,6 +103,11 @@ const styles = StyleSheet.create({
     label: {
         fontSize: 18,
         marginBottom: 10,
+    },
+    title: {
+        fontSize: 22,
+        marginBottom: 10,
+        textAlign: 'center'
     },
     input: {
         borderWidth: 1,
