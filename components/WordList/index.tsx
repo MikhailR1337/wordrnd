@@ -99,32 +99,34 @@ export const WordList = () => {
                     <Text style={styles.addButtonText}>ADD</Text>
                 </TouchableOpacity>
             </View>
-            <View style={[{ marginTop: 20 }, styles.inputWrapper]}>
-                {wordsList.map(({word, translate, id, isActive}) => (
-                    <View style={styles.wordWrapper} key={id}>
-                        <View>
-                            <View style={styles.word}>
-                                <Text style={styles.label}>{word}</Text>
+            <ScrollView style={{width: '100%'}}>
+                <View style={[{ marginTop: 20 }, styles.inputWrapper]}>
+                    {wordsList.map(({word, translate, id, isActive}) => (
+                        <View style={styles.wordWrapper} key={id}>
+                            <View>
+                                <View style={styles.word}>
+                                    <Text style={styles.label}>{word}</Text>
+                                    </View>
+                                <View style={styles.word}>
+                                    <Text style={styles.label}>{translate}</Text>   
                                 </View>
-                            <View style={styles.word}>
-                                <Text style={styles.label}>{translate}</Text>   
                             </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <TouchableOpacity style={styles.hideButton} onPress={() => handleActive(id)}>
+                                    {isActive ? (
+                                        <Text style={styles.hideButtonText}>Hide</Text>
+                                    ) : (
+                                        <Text style={styles.hideButtonText}>Show</Text>
+                                    )}
+                                </TouchableOpacity> 
+                                <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(id)}>
+                                    <Text style={styles.deleteButtonText}>Delete</Text>
+                                </TouchableOpacity>     
+                            </View>       
                         </View>
-                        <View style={{flexDirection: 'row'}}>
-                            <TouchableOpacity style={styles.hideButton} onPress={() => handleActive(id)}>
-                                {isActive ? (
-                                    <Text style={styles.hideButtonText}>Hide</Text>
-                                ) : (
-                                    <Text style={styles.hideButtonText}>Show</Text>
-                                )}
-                            </TouchableOpacity> 
-                            <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(id)}>
-                                <Text style={styles.deleteButtonText}>Delete</Text>
-                            </TouchableOpacity>     
-                        </View>       
-                    </View>
-                ))}
-            </View>
+                    ))}
+                </View>
+            </ScrollView>
         </View>
     )
 }

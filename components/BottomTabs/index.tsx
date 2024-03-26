@@ -30,10 +30,10 @@ const WordStudyingHeader = () => {
 export const BottomTabs = () => {
   return (
     <View style={{flex: 1, flexGrow: 1, width: '100%'}}>
-    <Tab.Navigator initialRouteName="WordList" tabBar={(props) => <TabBar {...props} />}>
-        <Tab.Screen name="WordList" component={WordList} options={{header: WordListHeader}}/>
-        <Tab.Screen name="WordStudying" component={WordStudying} options={{ header: WordStudyingHeader, unmountOnBlur: true }} />
-    </Tab.Navigator>
+      <Tab.Navigator initialRouteName="WordList" tabBar={(props) => <TabBar {...props} />}>
+          <Tab.Screen name="WordList" component={WordList} options={{header: WordListHeader}}/>
+          <Tab.Screen name="WordStudying" component={WordStudying} options={{ header: WordStudyingHeader, unmountOnBlur: true }} />
+      </Tab.Navigator>
     </View>
   );
 }
