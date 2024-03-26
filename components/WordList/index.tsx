@@ -53,45 +53,44 @@ export const WordList = () => {
     }
     return (
         <View style={styles.container}>
-            <ScrollView>
-                <Text style={styles.label}>Write your new word</Text>
+            <View style={styles.inputWrapper}>
                 <TextInput
                     style={styles.input}
                     placeholder="Enter your word"
                     value={newWord}
                     onChangeText={text => setNewWord(text)}
                 />
-
-                <Text style={styles.label}>Write translation</Text>
+            </View>
+            <View style={styles.inputWrapper}>
                 <TextInput
                     style={styles.input}
                     placeholder="Enter the word translation"
                     value={newTranslation}
                     onChangeText={text => setNewTranslation(text)}
                 />
+            </View>
+            <View style={styles.inputWrapper}>
                 <TouchableOpacity style={styles.addButton} onPress={handleAddWord}>
                     <Text style={styles.addButtonText}>ADD</Text>
                 </TouchableOpacity>
-                <View style={{ marginTop: 20 }}>
-                    {wordsList.map(({word, translate, id}) => (
-                        <View style={styles.wordWrapper} key={id}>
-                            <View>
-                                <View style={styles.word}>
-                                    <Text>Word - </Text>                    
-                                    <Text>{word}</Text>
-                                    </View>
-                                <View style={styles.word}>
-                                    <Text>Translate - </Text>                    
-                                    <Text>{translate}</Text>   
+            </View>
+            <View style={[{ marginTop: 20 }, styles.inputWrapper]}>
+                {wordsList.map(({word, translate, id}) => (
+                    <View style={styles.wordWrapper} key={id}>
+                        <View>
+                            <View style={styles.word}>
+                                <Text style={styles.label}>{word}</Text>
                                 </View>
+                            <View style={styles.word}>
+                                <Text style={styles.label}>{translate}</Text>   
                             </View>
-                            <TouchableOpacity style={styles.addButton} onPress={() => handleDelete(id)}>
-                                    <Text style={styles.addButtonText}>Delete</Text>
-                            </TouchableOpacity>             
                         </View>
-                    ))}
-                </View>
-            </ScrollView>
+                        <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(id)}>
+                                <Text style={styles.deleteButtonText}>Delete</Text>
+                        </TouchableOpacity>             
+                    </View>
+                ))}
+            </View>
         </View>
     )
 }
@@ -105,10 +104,11 @@ const styles = StyleSheet.create({
     },
     wordWrapper: {
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         borderWidth: 1,
         padding: 4,
-        marginBottom: 8,
+        marginBottom: 20,
     },
     word: {
         display: 'flex',
@@ -117,7 +117,10 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 18,
-        marginBottom: 10,
+    },
+    inputWrapper: {
+        width: '100%',
+        paddingHorizontal: 30,
     },
     input: {
         borderWidth: 1,
@@ -134,13 +137,28 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         width: '100%',
     },
-    addButton: {  
+    addButton: {
         backgroundColor: '#007bff',
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         paddingVertical: 10,
         borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     addButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    deleteButton: {
+        backgroundColor: '#D22B2B',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    deleteButtonText: {
         color: '#fff',
         fontSize: 16,
         fontWeight: 'bold',

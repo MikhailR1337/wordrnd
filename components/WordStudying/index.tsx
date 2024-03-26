@@ -44,34 +44,36 @@ export const WordStudying = () => {
         <View style={styles.container}>
             {currentWord?.word ? (
                 <>
-                <View>
-                    <View style={{flexDirection: 'row'}}>
-                        <Text style={styles.title}>{currentWord?.word}</Text>
-                        {isCorrect === false && (
-                            <Text style={styles.title}> - {currentWord?.translate}</Text>
-                        )}
+                    <View style={styles.inputWrapper}>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.title}>{currentWord?.word}</Text>
+                            {isCorrect === false && (
+                                <Text style={styles.title}> - {currentWord?.translate}</Text>
+                            )}
+                        </View>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter the answer"
+                            value={answer}
+                            onChangeText={text => setAnswer(text)}
+                        />
                     </View>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Enter the answer"
-                        value={answer}
-                        onChangeText={text => setAnswer(text)}
-                    />
-                </View>
-                <TouchableOpacity
-                    style={
-                        [styles.checkButton,
-                        isCorrect === true && { backgroundColor: '#097969' },
-                        isCorrect === false && { backgroundColor: '#D22B2B' }]
-                    }
-                    onPress={handleCheckResult}
-                >
-                    {isCorrect !== null ? (
-                        <Text style={styles.checkButtonText}>{isCorrect ? 'correct' : 'wrong'}</Text>
-                    ) : (
-                        <Text style={styles.checkButtonText}>Check</Text>
-                    )}
-                    </TouchableOpacity>
+                    <View style={styles.inputWrapper}>
+                        <TouchableOpacity
+                            style={
+                                [styles.checkButton,
+                                isCorrect === true && { backgroundColor: '#097969' },
+                                isCorrect === false && { backgroundColor: '#D22B2B' }]
+                            }
+                            onPress={handleCheckResult}
+                        >
+                            {isCorrect !== null ? (
+                                <Text style={styles.checkButtonText}>{isCorrect ? 'correct' : 'wrong'}</Text>
+                            ) : (
+                                <Text style={styles.checkButtonText}>Check</Text>
+                            )}
+                        </TouchableOpacity>
+                    </View>
                 </>
             ): (
                 <TouchableOpacity style={styles.checkButton} onPress={handleCurrentWord}>
@@ -117,5 +119,9 @@ const styles = StyleSheet.create({
         width: '100%',
         fontSize: 16,
         marginBottom: 15,
+    },
+    inputWrapper: {
+        width: '100%',
+        paddingHorizontal: 30,
     },
   });

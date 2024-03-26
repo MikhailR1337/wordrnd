@@ -27,6 +27,10 @@ const styles = StyleSheet.create({
       gap: 20,
     },
     pressable: {
-        borderWidth: 1, borderColor: '#000000', borderRadius: 8, paddingVertical: 10, paddingHorizontal: 16
+        borderWidth: 1,
+        borderColor: '#000000',
+        borderRadius: 8,
+        paddingVertical: 10,
+        paddingHorizontal: 16,
     }
   });
