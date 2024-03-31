@@ -19,12 +19,12 @@ export const TabBar = ({ state }: BottomTabBarProps) => {
 }
 const styles = StyleSheet.create({
     container: {
-      paddingBottom: 16,
-      flexDirection: 'row',
-      backgroundColor: '#fff',
-      alignItems: 'flex-end',
-      justifyContent: 'center',
-      gap: 20,
+        paddingBottom: 16,
+        flexDirection: 'row',
+        backgroundColor: '#fff',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        gap: 20,
     },
     pressable: {
         borderWidth: 1,
