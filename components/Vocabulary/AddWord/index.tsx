@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { TextInput, TouchableOpacity, View, Text, StyleSheet, Pressable } from "react-native"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Word } from "../WordList";
@@ -9,9 +9,15 @@ export const AddWord:  RootStackComponent<'AddWord'> = ({ navigation }) => {
     const [wordsList, setWordsList] = useState<Word[]>([])
     const [newWord, setNewWord] = useState('');
     const [newTranslation, setNewTranslation] = useState('');
-
+    const wordRef = useRef<TextInput>(null)
+    const focus = useCallback(() => {
+        if (wordRef.current) {
+            wordRef.current.focus()
+        }
+    }, [])
     useEffect(() => {
-        (async function () {
+        focus()
+        ;(async function () {
             try {
                 const wordsSaved = await AsyncStorage.getItem('WordList')
                 if (wordsSaved) {
@@ -38,6 +44,7 @@ export const AddWord:  RootStackComponent<'AddWord'> = ({ navigation }) => {
         setWordsList(newList)
         setNewTranslation('')
         setNewWord('')
+        focus()
         ;(async function () {
             try {
                 await AsyncStorage.setItem('WordList', JSON.stringify(newList))
@@ -50,6 +57,7 @@ export const AddWord:  RootStackComponent<'AddWord'> = ({ navigation }) => {
         <View style={styles.container}>
             <View style={styles.inputWrapper}>
                 <TextInput
+                    ref={wordRef}
                     style={styles.input}
                     placeholder="Enter your word"
                     value={newWord}
