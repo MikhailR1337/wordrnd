@@ -55,6 +55,9 @@ export const WordList: RootStackComponent<'WordList'> = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
+            <View style={{ width: '100%', justifyContent: 'center' }}>
+                <Text style={{ fontSize: 16, textAlign: 'right' }}>Words: {wordsList.length}</Text>
+            </View>
             <ScrollView style={{ width: '100%' }}>
                 <View style={[{ marginTop: 20 }, styles.wordContainer]}>
                     {wordsList.map(({word, translate, id, isActive}) => (
@@ -89,6 +92,7 @@ export const WordList: RootStackComponent<'WordList'> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     container: {
+      paddingHorizontal: 30,
       flex: 1,
       flexGrow: 1,
       backgroundColor: '#fff',
@@ -113,7 +117,6 @@ const styles = StyleSheet.create({
     },
     wordContainer: {
         width: '100%',
-        paddingHorizontal: 30,
     },
     hideButton: {
         backgroundColor: '#ced4da',
